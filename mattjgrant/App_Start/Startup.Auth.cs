@@ -32,7 +32,7 @@ namespace mattjgrant
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication();
+            //app.UseGoogleAuthentication(); 
         }
     }
 }
