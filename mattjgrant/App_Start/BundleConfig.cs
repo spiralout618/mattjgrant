@@ -23,6 +23,10 @@ namespace mattjgrant
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/checklist").Include(
+                     "~/Scripts/checklist.js",
+                     "~/Scripts/mvc-dynamic-list.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

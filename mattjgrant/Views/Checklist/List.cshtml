@@ -1,0 +1,26 @@
+﻿@model mattjgrant.ViewModels.ChecklistViewModel
+@using mattjgrant.Helpers;
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/bundles/checklist")
+
+<h2>@Model.Name</h2>
+<ul>
+    @for (int i = 0; i < Model.Items.Count; i++)
+    {
+        <li>
+            @Html.CheckBoxFor(m => m.Items[i].IsChecked)
+            @if (Model.Items[i].IsChecklist)
+            {
+                @Html.ActionLink(Model.Name, "List", "Checklist", new { ChecklistID = Model.Items[i].ChecklistID }, null)
+            }
+            else
+            {
+                @Html.LabelFor(m => m.Items[i].Name)
+            }
+            <a href="#" class="js-remove-checklist-item">remove</a>
+        </li>
+    }
+</ul>

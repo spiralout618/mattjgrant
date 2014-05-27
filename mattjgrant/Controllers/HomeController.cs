@@ -1,4 +1,6 @@
-﻿using System;
+﻿using mattjgrant.DAL;
+using mattjgrant.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +12,10 @@ namespace mattjgrant.Controllers
     {
         public ActionResult Index()
         {
+            var context = new ChecklistContext();
+            context.Checklists.Add(new Checklist { CreatedDate = DateTime.Now, IsActive = true, Name = "Test", UpdatedDate = DateTime.Now });
+            context.SaveChanges();
+
             return View();
         }
 
