@@ -14,9 +14,15 @@ namespace mattjgrant
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "List",
+                url: "Checklist/List/{checklistID}",
+                defaults: new { controller = "Checklist", action = "List", checklistID = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{checklistID}",
-                defaults: new { controller = "Checklist", action = "List", checklistID = 1 }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Checklist", action = "Index" }
             );
         }
     }

@@ -25,7 +25,8 @@ namespace mattjgrant
 
             bundles.Add(new ScriptBundle("~/bundles/checklist").Include(
                      "~/Scripts/checklist.js",
-                     "~/Scripts/mvc-dynamic-list.js"));
+                     "~/Scripts/mvc-dynamic-list.js",
+                     "~/Scripts/knockout-3.1.0.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

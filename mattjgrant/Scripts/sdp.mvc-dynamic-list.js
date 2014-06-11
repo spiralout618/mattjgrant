@@ -1,5 +1,5 @@
 ﻿var SDPMVC = {
-    DynamicList: function (settings) {
+    DynamicList: function(settings) {
         //Set up the initial state
         var errorMessage = " is not defined on the dynamic list settings";
         if (!settings.ParentElement)
@@ -108,7 +108,7 @@
             return false;
         };
 
-        var addItemToStart = function () {
+        var addItemToStart = function() {
             var items = parentElement.find(listWrapperClass + " > " + listItemClass);
             updateTemplate(0);
             var clone = template.clone();
@@ -138,7 +138,7 @@
                 if (elementSeen) {
                     updateListItem(currentItem, nextIndex);
                 }
-                if (!elementSeen && currentItem.html() === item.html())
+                if (!elementSeen && currentItem.html === item.html)
                     elementSeen = true;
                 else
                     nextIndex++;

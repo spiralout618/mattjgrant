@@ -12,6 +12,7 @@ namespace mattjgrant.Models
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public bool Test { get; set; }
 
         public virtual ICollection<ChecklistItem> ChecklistItems { get; set; }
     }

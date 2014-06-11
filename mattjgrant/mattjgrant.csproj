@@ -172,6 +172,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\ChecklistViewModels.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChecklistController.cs" />
@@ -208,10 +209,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\mvc-dynamic-list.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sdp.mvc-dynamic-list.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -247,9 +250,12 @@
     <Content Include="Views\Checklist\Index.cshtml" />
     <Content Include="Views\Checklist\List.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ChecklistItemViewModel.cshtml" />
+    <Content Include="Views\Checklist\EditorTemplates\ChecklistItemViewModel.cshtml" />
+    <Content Include="Views\Checklist\_ChecklistItemTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Checklist\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

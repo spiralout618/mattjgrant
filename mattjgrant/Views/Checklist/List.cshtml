@@ -1,26 +1,33 @@
-﻿@model mattjgrant.ViewModels.ChecklistViewModel
+﻿@using mattjgrant.ViewModels
+@model ChecklistViewModel
 @using mattjgrant.Helpers;
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/checklist")
 
-<h2>@Model.Name</h2>
-<ul>
-    @for (int i = 0; i < Model.Items.Count; i++)
+<div class="js-checklist-panel">
+    <h2>@Model.Name</h2>
+    @using (Html.BeginForm("List", "Checklist", FormMethod.Post))
     {
-        <li>
-            @Html.CheckBoxFor(m => m.Items[i].IsChecked)
-            @if (Model.Items[i].IsChecklist)
-            {
-                @Html.ActionLink(Model.Name, "List", "Checklist", new { ChecklistID = Model.Items[i].ChecklistID }, null)
-            }
-            else
-            {
-                @Html.LabelFor(m => m.Items[i].Name)
-            }
-            <a href="#" class="js-remove-checklist-item">remove</a>
-        </li>
+        @Html.AntiForgeryToken();
+        @Html.HiddenFor(m => m.ChecklistID)
+        <div class="js-checklist">
+            @Html.EditorFor(m => m.Items)
+        </div>
+        <a href="#" class="js-add-checklist-item">add checklist item</a>
+        <input type="submit" value="save">
     }
-</ul>
+
+    <div class="js-checklist-item-template" style="display:none">
+        @Html.Partial("_ChecklistItemTemplate", new ChecklistItemViewModel())
+    </div>
+
+</div>
+
+@*<div class="js-editable-items">
+    @Html.DisplayFor(m => m.Items)
+</div>*@

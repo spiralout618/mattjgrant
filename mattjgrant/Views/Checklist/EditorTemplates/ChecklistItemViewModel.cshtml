@@ -1,0 +1,10 @@
+﻿@model mattjgrant.ViewModels.ChecklistItemViewModel
+
+<div class="js-checklist-item-editable">
+    @Html.HiddenFor(m => m.NestedChecklistID)
+    @Html.HiddenFor(m => m.ChecklistItemID)
+    @Html.CheckBoxFor(m => m.IsChecked)
+    @Html.TextBoxFor(m => m.Name)
+    <a href="#" class="js-remove-checklist-item">remove</a>
+</div>
+

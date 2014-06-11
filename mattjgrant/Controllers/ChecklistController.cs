@@ -14,22 +14,51 @@ namespace mattjgrant.Controllers
 {
     public class ChecklistController : Controller
     {
-        private ChecklistContext db = new ChecklistContext();
+        private ChecklistContext context = new ChecklistContext();
 
         // GET: /Checklist/
         public ActionResult Index()
         {
-            return View(db.Checklists.ToList());
+            return View(context.Checklists.ToList());
         }
 
         [HttpGet]
         public ActionResult List(int checklistID)
         {
-            var checklist = db.Checklists.FirstOrDefault(c => c.ChecklistID == checklistID);
-            if(checklist == null)
+            var viewModel = GetListViewModel(checklistID);
+            return View(viewModel);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult List(ChecklistViewModel viewModel)
+        {
+            var checklist = context.Checklists.First(c => c.ChecklistID == viewModel.ChecklistID);
+            viewModel.AddMetaData(checklist);
+            viewModel.CopyToModel(checklist, context);
+            context.SaveChanges();
+
+            return RedirectToAction("List", viewModel.ChecklistID);
+            //return PartialView("List", viewModel);
+        }
+
+        private ChecklistViewModel GetListViewModel(int checklistID)
+        {
+            var checklist = context.Checklists.FirstOrDefault(c => c.ChecklistID == checklistID);
+            if (checklist == null)
                 throw new Exception("No such checklist");
             var viewModel = new ChecklistViewModel(checklist);
-            return View(viewModel);
+            viewModel.AddMetaData(checklist);
+            return viewModel;
+        }
+
+        [HttpPost]
+        public ActionResult Add(ChecklistItemViewModel viewModel)
+        {
+            //add metadata
+            //Validate
+            //Save to the database
+            //Return list
+            return PartialView("List", GetListViewModel(viewModel.NestedChecklistID.Value));
         }
 
         // GET: /Checklist/Details/5
@@ -39,7 +68,7 @@ namespace mattjgrant.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Checklist checklist = db.Checklists.Find(id);
+            Checklist checklist = context.Checklists.Find(id);
             if (checklist == null)
             {
                 return HttpNotFound();
@@ -62,8 +91,8 @@ namespace mattjgrant.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Checklists.Add(checklist);
-                db.SaveChanges();
+                context.Checklists.Add(checklist);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -77,7 +106,7 @@ namespace mattjgrant.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Checklist checklist = db.Checklists.Find(id);
+            Checklist checklist = context.Checklists.Find(id);
             if (checklist == null)
             {
                 return HttpNotFound();
@@ -94,8 +123,8 @@ namespace mattjgrant.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(checklist).State = EntityState.Modified;
-                db.SaveChanges();
+                context.Entry(checklist).State = EntityState.Modified;
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(checklist);
@@ -108,7 +137,7 @@ namespace mattjgrant.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Checklist checklist = db.Checklists.Find(id);
+            Checklist checklist = context.Checklists.Find(id);
             if (checklist == null)
             {
                 return HttpNotFound();
@@ -121,9 +150,9 @@ namespace mattjgrant.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Checklist checklist = db.Checklists.Find(id);
-            db.Checklists.Remove(checklist);
-            db.SaveChanges();
+            Checklist checklist = context.Checklists.Find(id);
+            context.Checklists.Remove(checklist);
+            context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -131,7 +160,7 @@ namespace mattjgrant.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                context.Dispose();
             }
             base.Dispose(disposing);
         }
