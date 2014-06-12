@@ -44,7 +44,8 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ChecklistID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ChecklistID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ChecklistID })
+            @Html.ActionLink("Delete", "Delete", new { id=item.ChecklistID }) |
+            @Html.ActionLink("Items", "List", new { checkListID = item.ChecklistID })
         </td>
     </tr>
 }

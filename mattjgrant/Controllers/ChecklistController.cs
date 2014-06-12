@@ -41,6 +41,32 @@ namespace mattjgrant.Controllers
             //return PartialView("List", viewModel);
         }
 
+        [HttpGet]
+        public ActionResult NestedChecklist(int checklistID)
+        {
+            var viewModel = new NestedChecklistViewModel();
+            viewModel.AddMetaData(context);
+            return View(viewModel);
+
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult NestedChecklist(NestedChecklistViewModel viewModel)
+        {
+            var checklist = context.Checklists.FirstOrDefault(c => c.ChecklistID == viewModel.ChecklistID);
+            if (checklist == null)
+                throw new Exception("No such checklist");
+            checklist.ChecklistItems.Add(new ChecklistItem
+            {
+                ChecklistID = viewModel.ChecklistID,
+                NestedChecklistID = viewModel.NestedChecklistID,
+                State = ChecklistState.Unchecked,
+                Name = checklist.Name
+            });
+            context.SaveChanges();
+            return RedirectToAction("List", viewModel.ChecklistID);
+        }
+
         private ChecklistViewModel GetListViewModel(int checklistID)
         {
             var checklist = context.Checklists.FirstOrDefault(c => c.ChecklistID == checklistID);

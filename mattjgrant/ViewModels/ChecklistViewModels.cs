@@ -90,4 +90,36 @@ namespace mattjgrant.ViewModels
                 IsChecklist = true;
         }
     }
+
+    public class NestedChecklistViewModel
+    {
+        public int NestedChecklistID { get; set; }
+        public int ChecklistID { get; set; }
+
+        public List<NestedChecklistOption> Options { get; set; }
+
+        public NestedChecklistViewModel() { }
+
+        public NestedChecklistViewModel(int checklistID)
+        {
+            ChecklistID = checklistID;
+        }
+
+        public void AddMetaData(ChecklistContext context)
+        {
+            Options = context.Checklists.Select(c => new NestedChecklistOption(c)).ToList();
+        }
+    }
+
+    public class NestedChecklistOption
+    {
+        public string Name;
+        public int ChecklistID;
+
+        public NestedChecklistOption(Checklist checklist)
+        {
+            Name = checklist.Name;
+            ChecklistID = checklist.ChecklistID;
+        }
+    }
 }
