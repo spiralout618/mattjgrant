@@ -11,6 +11,9 @@ namespace mattjgrant
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
+                         "~/Scripts/jquery-ui-{version}.js")); 
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -24,8 +27,12 @@ namespace mattjgrant
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/checklist").Include(
-                     "~/Scripts/checklist.js",
+                     
                      "~/Scripts/mvc-dynamic-list.js",
+                     "~/Scripts/knockout-3.1.0.js",
+                     "~/Scripts/checklist.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/nested").Include(
                      "~/Scripts/knockout-3.1.0.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

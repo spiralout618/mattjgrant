@@ -115,6 +115,8 @@ namespace mattjgrant.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="ChecklistID,Name,IsActive,CreatedDate,UpdatedDate")] Checklist checklist)
         {
+            checklist.CreatedDate = DateTime.Now;
+            checklist.UpdatedDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 context.Checklists.Add(checklist);

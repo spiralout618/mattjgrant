@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/checklist")
 
 <div class="js-checklist-panel">
@@ -18,8 +17,12 @@
         <div class="js-checklist">
             @Html.EditorFor(m => m.Items)
         </div>
-        <a href="#" class="js-add-checklist-item">add checklist item</a>
-        <input type="submit" value="save">
+        <div class="btn-block">
+            <a href="#" class="js-add-checklist-item btn">Add checklist item</a>
+            <a href="#" class="js-clear-checklist-items btn">Clear all checklist items</a>
+            <input class="btn" type="submit" value="save">
+            @Html.ActionLink("cancel", "List", new { checklistID = Model.ChecklistID, @class="btn" })
+        </div>
     }
 
     <div class="js-checklist-item-template" style="display:none">

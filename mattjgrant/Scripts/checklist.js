@@ -20,7 +20,19 @@ function Checklist() {
 
     var dynamicList = SDPMVC.DynamicList(dynamicListSettings);
 
+    var updateOrdering = function () {
+        var currentCount = 1;
+        panel.find(classes.Checklist + " > " + classes.ChecklistItem).each(function () {
+            $(this).find(".js-ordering").val(currentCount);
+            currentCount++;
+        });
+    }
+
     var initialiseChecklistItem = function (item) {
+        panel.find(classes.Checklist).sortable(
+            {
+                update: updateOrdering
+            });
         item.find(".js-remove-checklist-item").click(function () {
             dynamicList.Remove(item);
         });
@@ -29,12 +41,21 @@ function Checklist() {
     var initialiseChecklist = function () {
         panel.find(".js-add-checklist-item").click(function () {
             dynamicList.AddToEnd();
+            updateOrdering();
             initialiseChecklistItem(panel.find(classes.Checklist + " > " + classes.ChecklistItem).last());
         });
 
-        panel.find(classes.Checklist + " > " + classes.ChecklistItem).each(function () {
+        panel.find(".js-clear-checklist-items").click(function () {
+            panel.find(".js-item-checkbox").removeAttr("checked");
+        });
+
+        var checklistItems = panel.find(classes.Checklist + " > " + classes.ChecklistItem);
+        
+        checklistItems.each(function () {
             initialiseChecklistItem($(this));
         });
+
+       
     };
 
     initialiseChecklist();

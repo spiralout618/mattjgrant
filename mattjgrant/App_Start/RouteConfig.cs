@@ -19,10 +19,16 @@ namespace mattjgrant
                 defaults: new { controller = "Checklist", action = "List", checklistID = UrlParameter.Optional }
             );
 
+            //routes.MapRoute(
+            //    name: "Checklist",
+            //    url: "Checklist/{action}/{checklistID}",
+            //    defaults: new { controller = "Checklist", action = "{action}", checklistID = UrlParameter.Optional }
+            //);
+
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}",
-                defaults: new { controller = "Checklist", action = "Index" }
+                url: "{controller}/{action}/{checklistID}",
+                defaults: new { controller = "Checklist", action = "Index", checklistID = UrlParameter.Optional }
             );
         }
     }

@@ -1,10 +1,23 @@
 ﻿@model mattjgrant.ViewModels.ChecklistItemViewModel
 
-<div class="js-checklist-item-editable">
-    @Html.HiddenFor(m => m.NestedChecklistID)
-    @Html.HiddenFor(m => m.ChecklistItemID)
-    @Html.CheckBoxFor(m => m.IsChecked)
-    @Html.TextBoxFor(m => m.Name)
-    <a href="#" class="js-remove-checklist-item">remove</a>
+<div class="js-checklist-item-editable row">
+    <div class="col-md-12 input-group" >
+        @Html.HiddenFor(m => m.NestedChecklistID)
+        @Html.HiddenFor(m => m.ChecklistItemID)
+        @Html.CheckBoxFor(m => m.IsChecked, new { @class = "js-item-checkbox" })
+        @Html.HiddenFor(m => m.Order, new { @class = "js-ordering" })
+        @if (Model.IsChecklist)
+        {
+            <span class="input-group-addon">
+                @Html.ActionLink(Model.Name, "List", "Checklist", new { checklistID = Model.NestedChecklistID }, new { })
+            </span>
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        }
+
+        <a href="#" class="js-remove-checklist-item">remove</a>
+    </div>
 </div>
 

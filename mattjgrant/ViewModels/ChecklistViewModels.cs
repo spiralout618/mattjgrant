@@ -17,7 +17,7 @@ namespace mattjgrant.ViewModels
 
         public ChecklistViewModel(Checklist checklist)
         {
-            Items = checklist.ChecklistItems.Select(c => new ChecklistItemViewModel(c)).ToList();
+            Items = checklist.ChecklistItems.OrderBy(c => c.Order).Select(c => new ChecklistItemViewModel(c)).ToList();
         }
 
         public void CopyToModel(Checklist checklist, ChecklistContext context)
@@ -63,6 +63,7 @@ namespace mattjgrant.ViewModels
         public int? NestedChecklistID { get; set; }//For the nested checklist
         public string Name { get; set; }//Name of the checklist item or the nested checklist
         public bool IsChecked { get; set; }
+        public int Order { get; set; }
 
         public bool IsChecklist;
 
@@ -74,6 +75,7 @@ namespace mattjgrant.ViewModels
             NestedChecklistID = item.NestedChecklistID;
             Name = item.Name;
             IsChecked = item.State == ChecklistState.Checked;
+            Order = item.Order;
         }
 
         public void CopyToModel(ChecklistItem checklistItem, int checklistID)
@@ -82,6 +84,7 @@ namespace mattjgrant.ViewModels
             checklistItem.NestedChecklistID = NestedChecklistID;
             checklistItem.Name = Name;
             checklistItem.State = IsChecked ? ChecklistState.Checked : ChecklistState.Unchecked;
+            checklistItem.Order = Order;
         }
 
         public void AddMetaData()
@@ -107,7 +110,7 @@ namespace mattjgrant.ViewModels
 
         public void AddMetaData(ChecklistContext context)
         {
-            Options = context.Checklists.Select(c => new NestedChecklistOption(c)).ToList();
+            Options = context.Checklists.ToList().Select(c => new NestedChecklistOption(c)).ToList();
         }
     }
 

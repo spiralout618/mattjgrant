@@ -14,6 +14,7 @@ namespace mattjgrant.Models
         public int ChecklistID { get; set; }
         public int? NestedChecklistID { get; set; }
         public string Name { get; set; }
+        public int Order { get; set; }
         public Checklist Checklist { get; set; }
         public ChecklistState State { get; set; }
     }

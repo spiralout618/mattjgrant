@@ -1,0 +1,36 @@
+﻿@model mattjgrant.ViewModels.NestedChecklistViewModel
+@{
+    ViewBag.Title = "NestedChecklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/nested")
+
+
+@using (Html.BeginForm("NestedChecklist", "Checklist", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ChecklistID)
+    @Html.HiddenFor(m => m.NestedChecklistID)
+
+    foreach (var option in Model.Options) { 
+        <div class="form-group">
+            <div>@option.Name</div>
+            <a href="#" data-bind="click: setIdAndSubmit.bind(undefined, '@option.ChecklistID')">Add to list</a>
+        </div>
+    }
+
+}
+
+
+<script type="text/javascript">
+    var viewModel = {
+        setIdAndSubmit: function (id) {
+            var hidden = $("#NestedChecklistID");
+            hidden.val(id);
+            hidden.closest("form").submit();
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
