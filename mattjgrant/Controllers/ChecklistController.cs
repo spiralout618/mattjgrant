@@ -14,7 +14,7 @@ namespace mattjgrant.Controllers
 {
     public class ChecklistController : Controller
     {
-        private ChecklistContext context = new ChecklistContext();
+        private WebsiteContext context = new WebsiteContext();
 
         // GET: /Checklist/
         public ActionResult Index()

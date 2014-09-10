@@ -173,11 +173,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="DAL\WebsiteContext.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\ChecklistViewModels.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChecklistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DAL\ChecklistContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

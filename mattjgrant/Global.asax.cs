@@ -21,7 +21,7 @@ namespace mattjgrant
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Database.SetInitializer(
-            //    new MigrateDatabaseToLatestVersion<ChecklistContext, Migrations.Configuration>()
+            //    new MigrateDatabaseToLatestVersion<WebsiteContext, Migrations.Configuration>()
             //);
         }
     }

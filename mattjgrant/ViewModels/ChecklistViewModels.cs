@@ -20,7 +20,7 @@ namespace mattjgrant.ViewModels
             Items = checklist.ChecklistItems.OrderBy(c => c.Order).Select(c => new ChecklistItemViewModel(c)).ToList();
         }
 
-        public void CopyToModel(Checklist checklist, ChecklistContext context)
+        public void CopyToModel(Checklist checklist, WebsiteContext context)
         {
             
             var checklistItems = checklist.ChecklistItems.Where(ci => ci.ChecklistID == ChecklistID).ToList();
@@ -108,7 +108,7 @@ namespace mattjgrant.ViewModels
             ChecklistID = checklistID;
         }
 
-        public void AddMetaData(ChecklistContext context)
+        public void AddMetaData(WebsiteContext context)
         {
             Options = context.Checklists.ToList().Select(c => new NestedChecklistOption(c)).ToList();
         }

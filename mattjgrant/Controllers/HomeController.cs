@@ -12,7 +12,7 @@ namespace mattjgrant.Controllers
     {
         public ActionResult Index()
         {
-            var context = new ChecklistContext();
+            var context = new WebsiteContext();
             context.Checklists.Add(new Checklist { CreatedDate = DateTime.Now, IsActive = true, Name = "Test", UpdatedDate = DateTime.Now });
             context.SaveChanges();
 
