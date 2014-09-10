@@ -37,6 +37,8 @@ namespace mattjgrant.Controllers
             viewModel.CopyToModel(checklist, context);
             context.SaveChanges();
 
+            ViewData["Success"] = true;
+
             return RedirectToAction("List", viewModel.ChecklistID);
             //return PartialView("List", viewModel);
         }

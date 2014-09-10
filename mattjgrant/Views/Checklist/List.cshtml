@@ -8,15 +8,20 @@
 
 @Scripts.Render("~/bundles/checklist")
 
+@if (ViewData["Success"] != null)
+{
+    <div class="success">List saved</div>
+}
+
 <div class="js-checklist-panel">
-    <h2>@Model.Name</h2>
+    <h1>@Model.Name</h1>
     @using (Html.BeginForm("List", "Checklist", FormMethod.Post))
     {
         @Html.AntiForgeryToken();
         @Html.HiddenFor(m => m.ChecklistID)
-        <div class="js-checklist">
-            @Html.EditorFor(m => m.Items)
-        </div>
+    <div class="js-checklist list-group">
+        @Html.EditorFor(m => m.Items)
+    </div>
         <div class="btn-block">
             <a href="#" class="js-add-checklist-item btn">Add checklist item</a>
             <a href="#" class="js-clear-checklist-items btn">Clear all checklist items</a>

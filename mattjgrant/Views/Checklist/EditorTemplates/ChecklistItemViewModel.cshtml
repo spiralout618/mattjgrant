@@ -1,10 +1,12 @@
 ﻿@model mattjgrant.ViewModels.ChecklistItemViewModel
 
 <div class="js-checklist-item-editable row">
-    <div class="col-md-12 input-group" >
+    <div>
         @Html.HiddenFor(m => m.NestedChecklistID)
         @Html.HiddenFor(m => m.ChecklistItemID)
-        @Html.CheckBoxFor(m => m.IsChecked, new { @class = "js-item-checkbox" })
+        <div class="col-md-1">
+            @Html.CheckBoxFor(m => m.IsChecked, new { @class = "js-item-checkbox" })
+        </div>
         @Html.HiddenFor(m => m.Order, new { @class = "js-ordering" })
         @if (Model.IsChecklist)
         {
@@ -14,10 +16,13 @@
         }
         else
         {
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
         }
-
-        <a href="#" class="js-remove-checklist-item">remove</a>
+        <div class=" col-md-2">
+            <a href="#" class="js-remove-checklist-item">remove</a>
+        </div>
     </div>
 </div>
 

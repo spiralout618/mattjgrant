@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace mattjgrant.Models
+namespace mattjgrant.Models //TODO change the namespace
 {
     public class ExternalLoginConfirmationViewModel
     {
