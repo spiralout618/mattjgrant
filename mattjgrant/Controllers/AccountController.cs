@@ -77,9 +77,20 @@ namespace mattjgrant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            //model.AddMetaData();
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                //model.CopyToModel()
+                
+                var user = new ApplicationUser() 
+                { 
+                    FirstName = model.FirstName, 
+                    LastName = model.LastName, 
+                    Email = model.Email, 
+                    UserName = model.UserName 
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -12,6 +12,7 @@ using mattjgrant.ViewModels;
 
 namespace mattjgrant.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class ChecklistController : Controller
     {
         private WebsiteContext context = new WebsiteContext();
