@@ -1,26 +1,28 @@
 ﻿@model mattjgrant.ViewModels.ChecklistItemViewModel
 
-<div class="js-checklist-item-editable row">
+<div class="js-checklist-item-editable checklist-item row">
     <div>
         @Html.HiddenFor(m => m.NestedChecklistID)
         @Html.HiddenFor(m => m.ChecklistItemID)
-        <div class="col-md-1">
-            @Html.CheckBoxFor(m => m.IsChecked, new { @class = "js-item-checkbox" })
-        </div>
-        @Html.HiddenFor(m => m.Order, new { @class = "js-ordering" })
-        @if (Model.IsChecklist)
-        {
-            <span class="input-group-addon">
-                @Html.ActionLink(Model.Name, "List", "Checklist", new { checklistID = Model.NestedChecklistID }, new { })
-            </span>
-        }
-        else
-        {
-            <div class="col-md-9">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        <div class="input-group col-md-11">
+            <div class="input-group-addon">
+                @Html.CheckBoxFor(m => m.IsChecked, new { @class = "js-item-checkbox" })
             </div>
-        }
-        <div class=" col-md-2">
+            @Html.HiddenFor(m => m.Order, new { @class = "js-ordering" })
+            @if (Model.IsChecklist)
+            {
+                <span>
+                    @Html.ActionLink(Model.Name, "List", "Checklist", new { checklistID = Model.NestedChecklistID, parentChecklistID = Model.ChecklistItemID }, new { })
+                </span>
+            }
+            else
+            {
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            }
+        </div>
+        <div class=" col-md-1">
             <a href="#" class="js-remove-checklist-item">remove</a>
         </div>
     </div>

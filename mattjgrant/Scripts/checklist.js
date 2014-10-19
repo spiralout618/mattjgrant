@@ -45,7 +45,8 @@ function Checklist() {
             initialiseChecklistItem(panel.find(classes.Checklist + " > " + classes.ChecklistItem).last());
         });
 
-        panel.find(".js-clear-checklist-items").click(function () {
+        panel.find(".js-clear-checklist-items").click(function (e) {
+            e.preventDefault();
             panel.find(".js-item-checkbox").removeAttr("checked");
         });
 

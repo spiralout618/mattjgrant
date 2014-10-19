@@ -8,9 +8,11 @@
 
 @Scripts.Render("~/bundles/checklist")
 
-@if (ViewData["Success"] != null)
+@if (TempData["Success"] != null)
 {
-    <div class="success">List saved</div>
+    <div class="alert-success alert">
+        @TempData["Success"].ToString()
+    </div>
 }
 
 <div class="js-checklist-panel">
@@ -19,14 +21,23 @@
     {
         @Html.AntiForgeryToken();
         @Html.HiddenFor(m => m.ChecklistID)
-    <div class="js-checklist list-group">
-        @Html.EditorFor(m => m.Items)
-    </div>
-        <div class="btn-block">
-            <a href="#" class="js-add-checklist-item btn">Add checklist item</a>
-            <a href="#" class="js-clear-checklist-items btn">Clear all checklist items</a>
-            <input class="btn" type="submit" value="save">
-            @Html.ActionLink("cancel", "List", new { checklistID = Model.ChecklistID, @class="btn" })
+        <div class="js-checklist list-group">
+            @Html.EditorFor(m => m.Items)
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn-block">
+                    <a href="#" class="js-add-checklist-item btn">Add checklist item</a>
+                    <a href="#" class="js-clear-checklist-items btn">Clear all checklist items</a>
+                    @Html.ActionLink("Add nested checklist", "NestedChecklist", "Checklist", new { checklistID = Model.ChecklistID }, new { @class = "btn" })
+                </div>
+            </div>
+            <div class="col-md-2 col-md-offset-4">
+                <div class="btn-block">
+                    <input class="btn" type="submit" value="save">
+                    @Html.ActionLink("cancel", "Index", new { @class = "btn" })
+                </div>
+            </div>
         </div>
     }
 
@@ -35,7 +46,3 @@
     </div>
 
 </div>
-
-@*<div class="js-editable-items">
-    @Html.DisplayFor(m => m.Items)
-</div>*@

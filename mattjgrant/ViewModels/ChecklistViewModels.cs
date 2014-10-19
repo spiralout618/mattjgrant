@@ -10,6 +10,7 @@ namespace mattjgrant.ViewModels
     public class ChecklistViewModel
     {
         public int ChecklistID { get; set; }
+        public int? ParentChecklistID { get; set; }
         public string Name { get; set; }
         public List<ChecklistItemViewModel> Items { get; set; }
 
@@ -17,6 +18,7 @@ namespace mattjgrant.ViewModels
 
         public ChecklistViewModel(Checklist checklist)
         {
+            ChecklistID = checklist.ChecklistID;
             Items = checklist.ChecklistItems.OrderBy(c => c.Order).Select(c => new ChecklistItemViewModel(c)).ToList();
         }
 
@@ -61,6 +63,7 @@ namespace mattjgrant.ViewModels
     {
         public int? ChecklistItemID { get; set; }
         public int? NestedChecklistID { get; set; }//For the nested checklist
+        public int? ChecklistID { get; set; }
         public string Name { get; set; }//Name of the checklist item or the nested checklist
         public bool IsChecked { get; set; }
         public int Order { get; set; }
@@ -71,6 +74,7 @@ namespace mattjgrant.ViewModels
 
         public ChecklistItemViewModel(ChecklistItem item)
         {
+            ChecklistID = item.ChecklistID;
             ChecklistItemID = item.ChecklistItemID;
             NestedChecklistID = item.NestedChecklistID;
             Name = item.Name;
@@ -82,9 +86,14 @@ namespace mattjgrant.ViewModels
         {
             checklistItem.ChecklistID = checklistID;
             checklistItem.NestedChecklistID = NestedChecklistID;
-            checklistItem.Name = Name;
+            
             checklistItem.State = IsChecked ? ChecklistState.Checked : ChecklistState.Unchecked;
             checklistItem.Order = Order;
+            if (!IsChecklist)
+            {
+                checklistItem.Name = Name;
+            }
+
         }
 
         public void AddMetaData()
@@ -124,5 +133,12 @@ namespace mattjgrant.ViewModels
             Name = checklist.Name;
             ChecklistID = checklist.ChecklistID;
         }
+    }
+
+    public class CopyChecklistViewModel
+    {
+        public int OriginalChecklistID { get; set; }
+        public string OldName { get; set; }
+        public string NewName { get; set; }
     }
 }

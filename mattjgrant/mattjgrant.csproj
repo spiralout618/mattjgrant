@@ -365,6 +365,10 @@
     <Content Include="Views\Checklist\EditorTemplates\ChecklistItemViewModel.cshtml" />
     <Content Include="Views\Checklist\_ChecklistItemTemplate.cshtml" />
     <Content Include="Views\Checklist\NestedChecklist.cshtml" />
+    <Content Include="Views\Checklist\ArchivedChecklists.cshtml" />
+    <Content Include="Views\Checklist\ArchivedChecklist.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Checklist\Copy.cshtml" />
     <None Include="Views\Shared\_MainNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>

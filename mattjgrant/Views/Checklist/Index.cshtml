@@ -15,40 +15,27 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.ActionLink(item.Name, "List", new { checkListID = item.ChecklistID })
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ChecklistID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ChecklistID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ChecklistID }) |
+            @Html.ActionLink("Edit/Archive", "Edit", new { id = item.ChecklistID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ChecklistID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ChecklistID }) |
             @Html.ActionLink("Items", "List", new { checkListID = item.ChecklistID }) |
-            @Html.ActionLink("Add nested checklist", "NestedChecklist", new { checkListID = item.ChecklistID })
+            @Html.ActionLink("Copy", "Copy", new { checkListID = item.ChecklistID }) |
+            @Html.ActionLink("Add nested checklist", "NestedChecklist", new { checkListID = item.ChecklistID }) 
         </td>
     </tr>
 }
 
 </table>
+<p>
+    @Html.ActionLink("View archived", "ArchivedChecklists")
+</p>

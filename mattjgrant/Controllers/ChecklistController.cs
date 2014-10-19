@@ -20,14 +20,37 @@ namespace mattjgrant.Controllers
         // GET: /Checklist/
         public ActionResult Index()
         {
-            return View(context.Checklists.ToList());
+            return View(context.Checklists.Where(c => c.IsActive).ToList());
         }
 
         [HttpGet]
-        public ActionResult List(int checklistID)
+        public ActionResult List(int checklistID, int? parentChecklistID)
         {
             var viewModel = GetListViewModel(checklistID);
+            viewModel.ParentChecklistID = parentChecklistID;
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult ArchivedChecklists()
+        {
+            return View(context.Checklists.Where(c => !c.IsActive).ToList());
+        }
+
+        [HttpGet]
+        public ActionResult ArchivedChecklist(int checklistID)
+        {
+            var checklist = context.Checklists.First(c => c.ChecklistID == checklistID);
+            return View(new ChecklistViewModel(checklist));
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Activate(int ChecklistID)
+        {
+            var checklist = context.Checklists.First(c => c.ChecklistID == ChecklistID);
+            checklist.IsActive = true;
+            context.SaveChanges();
+            return RedirectToAction("List", new { checklistID = checklist.ChecklistID });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -38,7 +61,7 @@ namespace mattjgrant.Controllers
             viewModel.CopyToModel(checklist, context);
             context.SaveChanges();
 
-            ViewData["Success"] = true;
+            TempData["Success"] = "Checklist saved";
 
             return RedirectToAction("List", viewModel.ChecklistID);
             //return PartialView("List", viewModel);
@@ -57,14 +80,15 @@ namespace mattjgrant.Controllers
         public ActionResult NestedChecklist(NestedChecklistViewModel viewModel)
         {
             var checklist = context.Checklists.FirstOrDefault(c => c.ChecklistID == viewModel.ChecklistID);
-            if (checklist == null)
+            var nestedChecklist = context.Checklists.FirstOrDefault(c => c.ChecklistID == viewModel.NestedChecklistID);
+            if (checklist == null || nestedChecklist== null)
                 throw new Exception("No such checklist");
             checklist.ChecklistItems.Add(new ChecklistItem
             {
-                ChecklistID = viewModel.ChecklistID,
-                NestedChecklistID = viewModel.NestedChecklistID,
+                ChecklistID = checklist.ChecklistID,
+                NestedChecklistID = nestedChecklist.ChecklistID,
                 State = ChecklistState.Unchecked,
-                Name = checklist.Name
+                Name = nestedChecklist.Name
             });
             context.SaveChanges();
             return RedirectToAction("List", viewModel.ChecklistID);
@@ -116,10 +140,11 @@ namespace mattjgrant.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ChecklistID,Name,IsActive,CreatedDate,UpdatedDate")] Checklist checklist)
+        public ActionResult Create([Bind(Include="Name")] Checklist checklist)
         {
             checklist.CreatedDate = DateTime.Now;
             checklist.UpdatedDate = DateTime.Now;
+            checklist.IsActive = true;
             if (ModelState.IsValid)
             {
                 context.Checklists.Add(checklist);
@@ -150,10 +175,11 @@ namespace mattjgrant.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ChecklistID,Name,IsActive,CreatedDate,UpdatedDate")] Checklist checklist)
+        public ActionResult Edit([Bind(Include="ChecklistID,Name,IsActive,CreatedDate")] Checklist checklist)
         {
             if (ModelState.IsValid)
             {
+                checklist.UpdatedDate = DateTime.Now;
                 context.Entry(checklist).State = EntityState.Modified;
                 context.SaveChanges();
                 return RedirectToAction("Index");
@@ -182,7 +208,57 @@ namespace mattjgrant.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Checklist checklist = context.Checklists.Find(id);
+
+            context.ChecklistItems
+                .Where(ci => ci.NestedChecklistID == checklist.ChecklistID).ToList()
+                .ForEach(ci => { ci.NestedChecklistID = null; ci.Name = checklist.Name; });
+
+            foreach (var checklistItem in checklist.ChecklistItems.ToList())
+            {
+                context.ChecklistItems.Remove(checklistItem);
+            }
+
             context.Checklists.Remove(checklist);
+
+            context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Copy(int checklistID)
+        {
+            var checklist = context.Checklists.Find(checklistID);
+            return View(new CopyChecklistViewModel 
+            { 
+                OriginalChecklistID = checklist.ChecklistID, 
+                OldName = checklist.Name 
+            });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Copy(CopyChecklistViewModel viewModel)
+        {
+            var checklist = new Checklist();
+            checklist.Name = viewModel.NewName;
+            checklist.CreatedDate = DateTime.Now;
+            checklist.UpdatedDate = DateTime.Now;
+            checklist.IsActive = true;
+
+            var checklistItems = context.ChecklistItems.Where(c => c.ChecklistID == viewModel.OriginalChecklistID).ToList().Select(ci => new ChecklistItem
+            {
+                Checklist = checklist,
+                Name = ci.Name,
+                NestedChecklistID = ci.NestedChecklistID,
+                Order = ci.Order,
+                State = ChecklistState.Unchecked
+            });
+
+            foreach (var item in checklistItems)
+            {
+                context.ChecklistItems.Add(item);
+            }
+
+            context.Checklists.Add(checklist);
             context.SaveChanges();
             return RedirectToAction("Index");
         }

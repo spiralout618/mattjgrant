@@ -1,0 +1,30 @@
+﻿@model IEnumerable<mattjgrant.Models.Checklist>
+
+@{
+    ViewBag.Title = "Archived";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Archived</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "List", new { checkListID = item.ChecklistID })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "ArchivedChecklist", new { checkListID = item.ChecklistID })
+            </td>
+        </tr>
+    }
+</table>
+
